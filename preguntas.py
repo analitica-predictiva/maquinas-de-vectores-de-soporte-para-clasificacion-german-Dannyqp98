@@ -206,7 +206,7 @@ def pregunta_03():
     # Importe Pipeline
     from sklearn.compose import make_column_transformer
     from sklearn.preprocessing import OneHotEncoder
-    from sklearn.pipeline import make_pipeline
+    from sklearn.pipeline import Pipeline
 
     # Cargue las variables.
     X_train, _, y_train, _ = pregunta_02()
@@ -223,10 +223,12 @@ def pregunta_03():
     )
 
     # Cree un pipeline que contenga el columnTransformer y el modelo SVC.
-    pipeline = make_pipeline(
-        ("preprocessor", columnTransformer),
-        ("classifier", SVC()),
-    )
+    pipeline = Pipeline(
+        steps=[
+            ("columnTransformer", columnTransformer),
+            ("svc", SVC()),
+        ],
+        )
 
     # Entrene el pipeline con los datos de entrenamiento.
     pipeline.fit(X_train, y_train)
